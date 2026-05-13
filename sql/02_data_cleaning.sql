@@ -63,3 +63,19 @@ ALTER TABLE  customer_churn_staging RENAME COLUMN Churn TO churn;
 
 SELECT *
 FROM customer_churn_staging;
+
+-- USE CTE to detect logical duplicates
+WITH logical_duplicate_cte AS
+(
+SELECT *,
+ROW_NUMBER() OVER( 
+PARTITION BY gender, senior_citizen, partner, dependents, tenure, phone_service, multiple_lines, internet_service, 
+online_security, online_backup, device_protection, tech_support, streaming_tv, streaming_movies, contract, 
+paper_less_billing, payment_method, monthly_charges, total_charges, churn) AS row_num
+FROM customer_churn_staging
+)
+
+SELECT *
+FROM logical_duplicate_cte
+WHERE row_num > 1;
+
