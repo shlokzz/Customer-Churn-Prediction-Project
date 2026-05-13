@@ -79,3 +79,29 @@ SELECT *
 FROM logical_duplicate_cte
 WHERE row_num > 1;
 
+CREATE TABLE `customer_churn_staging2` (
+  `customer_id` text,
+  `gender` text,
+  `senior_citizen` int DEFAULT NULL,
+  `partner` text,
+  `dependents` text,
+  `tenure` int DEFAULT NULL,
+  `phone_service` text,
+  `multiple_lines` text,
+  `internet_service` text,
+  `online_security` text,
+  `online_backup` text,
+  `device_protection` text,
+  `tech_support` text,
+  `streaming_tv` text,
+  `streaming_movies` text,
+  `contract` text,
+  `paper_less_billing` text,
+  `payment_method` text,
+  `monthly_charges` double DEFAULT NULL,
+  `total_charges` double DEFAULT NULL,
+  `churn` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+SELECT *
+FROM customer_churn_staging2;
