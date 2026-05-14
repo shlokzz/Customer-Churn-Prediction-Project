@@ -134,7 +134,8 @@ SELECT DISTINCT dependents
 FROM customer_churn_staging2;
 
 SELECT DISTINCT tenure
-FROM customer_churn_staging2;
+FROM customer_churn_staging2
+ORDER BY 1;
 
 SELECT DISTINCT phone_service
 FROM customer_churn_staging2;
@@ -173,10 +174,12 @@ SELECT DISTINCT payment_method
 FROM customer_churn_staging2;
 
 SELECT DISTINCT monthly_charges
-FROM customer_churn_staging2;
+FROM customer_churn_staging2
+ORDER BY 1;
 
 SELECT DISTINCT total_charges
-FROM customer_churn_staging2;
+FROM customer_churn_staging2
+ORDER BY 1;
 
 SELECT DISTINCT churn
 FROM customer_churn_staging2;
@@ -207,4 +210,7 @@ SELECT
 	SUM(CASE WHEN monthly_charges IS NULL OR monthly_charges = "" THEN 1 ELSE 0 END) AS mothly_charges_nulls,
 	SUM(CASE WHEN total_charges IS NULL OR total_charges = "" THEN 1 ELSE 0 END) AS total_charges_nulls,
 	SUM(CASE WHEN churn IS NULL OR churn = "" THEN 1 ELSE 0 END) AS churn_nulls
+FROM customer_churn_staging2;
+
+SELECT *
 FROM customer_churn_staging2;
