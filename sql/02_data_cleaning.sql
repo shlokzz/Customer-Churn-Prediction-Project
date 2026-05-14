@@ -105,3 +105,10 @@ CREATE TABLE `customer_churn_staging2` (
 
 SELECT *
 FROM customer_churn_staging2;
+
+INSERT INTO customer_churn_staging2
+SELECT *
+FROM customer_churn_staging;
+
+SELECT *
+FROM customer_churn_staging2;
