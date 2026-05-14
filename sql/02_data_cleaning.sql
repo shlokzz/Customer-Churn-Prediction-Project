@@ -112,3 +112,74 @@ FROM customer_churn_staging;
 
 SELECT *
 FROM customer_churn_staging2;
+
+-- Standardardizing Data
+
+SELECT DISTINCT customer_id
+FROM customer_churn_staging2;
+
+UPDATE customer_churn_staging2
+SET customer_id = TRIM(customer_id);
+
+SELECT DISTINCT gender
+FROM customer_churn_staging2;
+
+SELECT DISTINCT senior_citizen
+FROM customer_churn_staging2;
+
+SELECT DISTINCT partner
+FROM customer_churn_staging2;
+
+SELECT DISTINCT dependents
+FROM customer_churn_staging2;
+
+SELECT DISTINCT tenure
+FROM customer_churn_staging2;
+
+SELECT DISTINCT phone_service
+FROM customer_churn_staging2;
+
+SELECT DISTINCT multiple_lines
+FROM customer_churn_staging2;
+
+SELECT DISTINCT internet_service
+FROM customer_churn_staging2;
+
+SELECT DISTINCT online_security
+FROM customer_churn_staging2;
+
+SELECT DISTINCT online_backup
+FROM customer_churn_staging2;
+
+SELECT DISTINCT device_protection
+FROM customer_churn_staging2;
+
+SELECT DISTINCT tech_support
+FROM customer_churn_staging2;
+
+SELECT DISTINCT streaming_tv
+FROM customer_churn_staging2;
+
+SELECT DISTINCT streaming_movies
+FROM customer_churn_staging2;
+
+SELECT DISTINCT contract
+FROM customer_churn_staging2;
+
+SELECT DISTINCT paper_less_billing
+FROM customer_churn_staging2;
+
+SELECT DISTINCT payment_method
+FROM customer_churn_staging2;
+
+SELECT DISTINCT monthly_charges
+FROM customer_churn_staging2;
+
+SELECT DISTINCT total_charges
+FROM customer_churn_staging2;
+
+SELECT DISTINCT churn
+FROM customer_churn_staging2;
+
+SELECT *
+FROM customer_churn_staging2;
