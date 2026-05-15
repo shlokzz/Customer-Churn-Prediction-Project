@@ -12,3 +12,23 @@ FROM customer_churn_staging2
 UNION ALL
 SELECT 'monthly_charges', MIN(monthly_charges), MAX(monthly_charges), ROUND(AVG(monthly_charges),2)
 FROM customer_churn_staging2;
+
+-- Calculate total and average monthly charges across churn segments
+SELECT churn, COUNT(*) AS total_customers, 
+ROUND(SUM(monthly_charges),2) AS total_monthly_revenue,
+ROUND(AVG(monthly_charges),2) AS avg_monthly_revenue
+FROM customer_churn_staging2
+GROUP BY churn;
+
+-- Calculate churn rate percentage
+SELECT churn, COUNT(*) AS total_customers, 
+ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS percentage
+FROM customer_churn_staging2
+GROUP BY churn;
+
+-- Calculate churn rates acorss gender demographics 
+SELECT churn,gender, COUNT(*) AS total_customers,
+ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS percentage
+FROM customer_churn_staging2
+GROUP BY churn,gender;
+
