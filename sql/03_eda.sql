@@ -39,6 +39,7 @@ FROM customer_churn_staging2
 GROUP BY contract, churn
 ORDER BY contract, churn;
 
+-- Identify churn on the basis of tenure group and contract type
 SELECT 
 CASE
 	WHEN tenure <= 12
@@ -58,3 +59,10 @@ FROM customer_churn_staging2
 GROUP BY 1,2,3
 ORDER BY 1,2,3;
 
+-- Analyze average tenure, monthly charges and total_charges by churn status
+SELECT churn, ROUND(AVG(tenure),2) AS avg_tenure, 
+ROUND(AVG(monthly_charges),2) AS avg_monthly_charges, 
+ROUND(MAX(monthly_charges)) AS max_monthly_charges,
+ROUND(AVG(total_charges),2) AS avg_total_charges
+FROM customer_churn_staging2
+GROUP BY churn;
