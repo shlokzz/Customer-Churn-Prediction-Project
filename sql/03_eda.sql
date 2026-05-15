@@ -66,3 +66,33 @@ ROUND(MAX(monthly_charges)) AS max_monthly_charges,
 ROUND(AVG(total_charges),2) AS avg_total_charges
 FROM customer_churn_staging2
 GROUP BY churn;
+
+-- Calculate churn rates on the basis of internet service type
+SELECT churn, internet_service, COUNT(*) AS total_customers,
+ROUND (COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY internet_service) ,2) as churn_rate_per_internet_service
+FROM customer_churn_staging2
+GROUP BY churn, internet_service
+ORDER BY internet_service;
+
+-- Calculate churn rates on the basis of paperless billing preference
+SELECT churn, paper_less_billing, COUNT(*) AS total_customers,
+ROUND (COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY paper_less_billing) ,2) as churn_rate_per_paper_less_billing
+FROM customer_churn_staging2
+GROUP BY churn, paper_less_billing
+ORDER BY paper_less_billing;
+
+-- Calculate churn rates across different payment method
+SELECT churn, payment_method, COUNT(*) AS total_customers,
+ROUND (COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY payment_method) ,2) as churn_rate_per_payment_method
+FROM customer_churn_staging2
+GROUP BY churn, payment_method
+ORDER BY payment_method;
+
+-- Calculate churn rates for senior citizens vs non-senior citizens
+SELECT churn, senior_citizen, COUNT(*) AS total_customers,
+ROUND (COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY senior_citizen) ,2) as churn_rate_per_senior_citizen
+FROM customer_churn_staging2
+GROUP BY churn, senior_citizen
+ORDER BY senior_citizen;
+
+
