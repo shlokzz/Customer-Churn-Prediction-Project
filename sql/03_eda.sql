@@ -26,7 +26,7 @@ ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS pe
 FROM customer_churn_staging2
 GROUP BY churn;
 
--- Calculate churn rates acorss gender demographics 
+-- Calculate churn rates across gender demographics 
 SELECT churn,gender, COUNT(*) AS total_customers,
 ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS percentage
 FROM customer_churn_staging2
@@ -38,4 +38,23 @@ ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY contract), 2) AS churn_
 FROM customer_churn_staging2
 GROUP BY contract, churn
 ORDER BY contract, churn;
+
+SELECT 
+CASE
+	WHEN tenure <= 12
+		THEN '0-1 Year'
+	WHEN tenure <= 24
+		THEN '1-2 Years'
+	WHEN tenure <= 48
+		THEN '2-4 Years'
+	WHEN tenure <= 72
+		THEN '4-6 Year'
+	ELSE
+		'Over 6 Years'
+END AS tenure_group,
+churn, contract, COUNT(*) AS total_customers,
+ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY contract), 2) AS churn_rate_per_contract
+FROM customer_churn_staging2
+GROUP BY 1,2,3
+ORDER BY 1,2,3;
 
