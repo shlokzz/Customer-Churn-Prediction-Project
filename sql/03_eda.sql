@@ -32,3 +32,10 @@ ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS pe
 FROM customer_churn_staging2
 GROUP BY churn,gender;
 
+-- Calculate churn rate on the basis of contract choosen
+SELECT contract, churn, COUNT(*) AS total_customers,
+ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY contract), 2) AS churn_rate_per_contract
+FROM customer_churn_staging2
+GROUP BY contract, churn
+ORDER BY contract, churn;
+
