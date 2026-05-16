@@ -1,7 +1,16 @@
--- Exploratory Data Analysis
+-- Exploratory Data Analysis (EDA)
+-- DATABASE : customer_churn_staging2
+
+-- =======================================================================
+-- 1. DATASET OVERVIEW
+-- =======================================================================
 
 SELECT *
 FROM customer_churn_staging2;
+
+-- =======================================================================
+-- 2. TARGET VAIRABLE ANALYSIS
+-- =======================================================================
 
 -- Check the minimum, maximum and average value of numeric features
 SELECT 'tenure' as metric, MIN(tenure) as min_value, MAX(tenure) as max_value, ROUND(AVG(tenure),2) as average
@@ -26,12 +35,20 @@ ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS pe
 FROM customer_churn_staging2
 GROUP BY churn;
 
+-- =======================================================================
+-- 3. DEMOGRAPHIC ANALYSIS
+-- =======================================================================
+
 -- Calculate churn rates across gender demographics 
 SELECT churn, gender, COUNT(*) AS total_customers,
 ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY gender), 2) AS percentage
 FROM customer_churn_staging2
 GROUP BY churn,gender
 ORDER BY gender, churn;
+
+-- =======================================================================
+-- 4. CONTRACT AND TENURE ANALYSIS
+-- =======================================================================
 
 -- Calculate churn rate on the basis of contract choosen
 SELECT contract, churn, COUNT(*) AS total_customers,
@@ -68,6 +85,10 @@ ROUND(AVG(total_charges),2) AS avg_total_charges
 FROM customer_churn_staging2
 GROUP BY churn;
 
+-- =======================================================================
+-- 5. SERVICE AND BEHAVIORAL FEATURES ANALYSIS
+-- =======================================================================
+
 -- Calculate churn rates on the basis of internet service type
 SELECT churn, internet_service, COUNT(*) AS total_customers,
 ROUND (COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY internet_service) ,2) as churn_rate_per_internet_service
@@ -95,6 +116,10 @@ ROUND (COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY senior_citizen) ,2) as
 FROM customer_churn_staging2
 GROUP BY churn, senior_citizen
 ORDER BY senior_citizen;
+
+-- =======================================================================
+-- 6.  FINANCIAL AND HIGH VALUE CUSTOMER ANALYSIS
+-- =======================================================================
 
 -- Analyze 30 customers with the highest monthly charges 
 SELECT customer_id, tenure, payment_method, monthly_charges, total_charges, contract 
