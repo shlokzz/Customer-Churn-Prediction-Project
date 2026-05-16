@@ -102,3 +102,19 @@ WHERE churn = "Yes"
 ORDER BY monthly_charges DESC
 LIMIT 30;
 
+-- Calculate the total number of services per customer on the basis of churn rates
+SELECT 
+	(
+    CASE WHEN phone_service = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN multiple_lines = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN internet_service != 'No' THEN 1 ELSE 0 END +
+    CASE WHEN online_security = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN online_backup = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN device_protection = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN tech_support = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN streaming_tv = 'Yes' THEN 1 ELSE 0 END +
+    CASE WHEN streaming_movies = 'Yes' THEN 1 ELSE 0 END) AS total_services,
+churn, COUNT(*) AS total_customers
+FROM customer_churn_staging2
+GROUP BY 1,2
+ORDER BY 1;
