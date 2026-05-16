@@ -95,4 +95,10 @@ FROM customer_churn_staging2
 GROUP BY churn, senior_citizen
 ORDER BY senior_citizen;
 
+-- Analyze 30 customers with the highest monthly charges 
+SELECT customer_id, tenure, payment_method, monthly_charges, total_charges, contract 
+FROM customer_churn_staging2
+WHERE churn = "Yes"
+ORDER BY monthly_charges DESC
+LIMIT 30;
 
