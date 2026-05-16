@@ -106,9 +106,16 @@ CREATE TABLE `customer_churn_staging2` (
 SELECT *
 FROM customer_churn_staging2;
 
+-- Clear the staging table to ensure data is not duplicated when re-runs
+TRUNCATE TABLE customer_churn_staging2;
+
+-- Inserting the values in the staging table
 INSERT INTO customer_churn_staging2
 SELECT *
 FROM customer_churn_staging;
+
+SELECT COUNT(*)
+FROM customer_churn_staging2;
 
 SELECT *
 FROM customer_churn_staging2;
@@ -212,5 +219,6 @@ SELECT
 	SUM(CASE WHEN churn IS NULL OR churn = "" THEN 1 ELSE 0 END) AS churn_nulls
 FROM customer_churn_staging2;
 
-SELECT *
+SELECT COUNT(*)
 FROM customer_churn_staging2;
+
