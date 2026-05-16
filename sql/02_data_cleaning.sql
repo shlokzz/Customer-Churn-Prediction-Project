@@ -198,10 +198,10 @@ FROM customer_churn_staging2;
 SELECT 
 	SUM(CASE WHEN customer_id IS NULL OR customer_id = "" THEN 1 ELSE 0 END) AS id_nulls,
 	SUM(CASE WHEN gender IS NULL OR gender = "" THEN 1 ELSE 0 END) AS gender_nulls,
-	SUM(CASE WHEN senior_citizen IS NULL OR senior_citizen = "" THEN 1 ELSE 0 END) AS citizen_nulls,
+	SUM(CASE WHEN senior_citizen IS NULL THEN 1 ELSE 0 END) AS citizen_nulls,
 	SUM(CASE WHEN partner IS NULL OR partner = "" THEN 1 ELSE 0 END) AS partner_nulls,
 	SUM(CASE WHEN dependents IS NULL OR dependents = "" THEN 1 ELSE 0 END) AS dependents_nulls,
-	SUM(CASE WHEN tenure IS NULL OR tenure = "" THEN 1 ELSE 0 END) AS tenure_nulls,
+	SUM(CASE WHEN tenure IS NULL THEN 1 ELSE 0 END) AS tenure_nulls,
 	SUM(CASE WHEN phone_service IS NULL OR phone_service = "" THEN 1 ELSE 0 END) AS phone_service_nulls,
 	SUM(CASE WHEN multiple_lines IS NULL OR multiple_lines = "" THEN 1 ELSE 0 END) AS lines_nulls,
 	SUM(CASE WHEN internet_service IS NULL OR internet_service = "" THEN 1 ELSE 0 END) AS internet_service_nulls,
@@ -214,8 +214,8 @@ SELECT
 	SUM(CASE WHEN contract IS NULL OR contract = "" THEN 1 ELSE 0 END) AS contract_nulls,
 	SUM(CASE WHEN paper_less_billing IS NULL OR paper_less_billing = "" THEN 1 ELSE 0 END) AS paper_less_biling_nulls,
 	SUM(CASE WHEN payment_method IS NULL OR payment_method = "" THEN 1 ELSE 0 END) AS payment_method_nulls,
-	SUM(CASE WHEN monthly_charges IS NULL OR monthly_charges = "" THEN 1 ELSE 0 END) AS mothly_charges_nulls,
-	SUM(CASE WHEN total_charges IS NULL OR total_charges = "" THEN 1 ELSE 0 END) AS total_charges_nulls,
+	SUM(CASE WHEN monthly_charges IS NULL THEN 1 ELSE 0 END) AS mothly_charges_nulls,
+	SUM(CASE WHEN total_charges IS NULL THEN 1 ELSE 0 END) AS total_charges_nulls,
 	SUM(CASE WHEN churn IS NULL OR churn = "" THEN 1 ELSE 0 END) AS churn_nulls
 FROM customer_churn_staging2;
 
