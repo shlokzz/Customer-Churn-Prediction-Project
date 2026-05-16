@@ -27,10 +27,11 @@ FROM customer_churn_staging2
 GROUP BY churn;
 
 -- Calculate churn rates across gender demographics 
-SELECT churn,gender, COUNT(*) AS total_customers,
-ROUND(COUNT(*) * 100.0 /(SELECT COUNT(*) FROM customer_churn_staging2), 2) AS percentage
+SELECT churn, gender, COUNT(*) AS total_customers,
+ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY gender), 2) AS percentage
 FROM customer_churn_staging2
-GROUP BY churn,gender;
+GROUP BY churn,gender
+ORDER BY gender, churn;
 
 -- Calculate churn rate on the basis of contract choosen
 SELECT contract, churn, COUNT(*) AS total_customers,
@@ -59,7 +60,7 @@ FROM customer_churn_staging2
 GROUP BY 1,2,3
 ORDER BY 1,2,3;
 
--- Analyze average tenure, monthly charges and total_charges by churn status
+-- Analyze average tenure, monthly charges and total charges by churn status
 SELECT churn, ROUND(AVG(tenure),2) AS avg_tenure, 
 ROUND(AVG(monthly_charges),2) AS avg_monthly_charges, 
 ROUND(MAX(monthly_charges)) AS max_monthly_charges,
@@ -98,7 +99,7 @@ ORDER BY senior_citizen;
 -- Analyze 30 customers with the highest monthly charges 
 SELECT customer_id, tenure, payment_method, monthly_charges, total_charges, contract 
 FROM customer_churn_staging2
-WHERE churn = "Yes"
+WHERE churn = 'Yes'
 ORDER BY monthly_charges DESC
 LIMIT 30;
 
