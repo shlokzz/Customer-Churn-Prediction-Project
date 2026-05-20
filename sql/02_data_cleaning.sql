@@ -194,6 +194,20 @@ WHERE total_charges IS NULL
 OR total_charges = " "
 GROUP BY total_charges;
 
+SELECT *
+FROM customer_churn_staging2 
+WHERE total_charges IS NULL 
+OR total_charges = " ";
+
+SELECT total_charges, tenure
+FROM customer_churn_staging2 
+WHERE total_charges IS NULL 
+OR total_charges = " ";
+
+SELECT tenure, total_charges 
+FROM customer_churn_staging2
+WHERE tenure = 0;
+
 SELECT DISTINCT churn
 FROM customer_churn_staging2;
 
