@@ -208,6 +208,10 @@ SELECT tenure, total_charges
 FROM customer_churn_staging2
 WHERE tenure = 0;
 
+UPDATE customer_churn_staging2
+SET total_charges = 0
+WHERE total_charges = ' ';
+
 SELECT DISTINCT churn
 FROM customer_churn_staging2;
 
@@ -216,27 +220,27 @@ FROM customer_churn_staging2;
 
 -- Check if the columns have any NULL or Empty Values
 SELECT 
-	SUM(CASE WHEN customer_id IS NULL OR customer_id = "" THEN 1 ELSE 0 END) AS id_nulls,
-	SUM(CASE WHEN gender IS NULL OR gender = "" THEN 1 ELSE 0 END) AS gender_nulls,
+	SUM(CASE WHEN customer_id IS NULL OR customer_id = " " THEN 1 ELSE 0 END) AS id_nulls,
+	SUM(CASE WHEN gender IS NULL OR gender = " " THEN 1 ELSE 0 END) AS gender_nulls,
 	SUM(CASE WHEN senior_citizen IS NULL THEN 1 ELSE 0 END) AS citizen_nulls,
-	SUM(CASE WHEN partner IS NULL OR partner = "" THEN 1 ELSE 0 END) AS partner_nulls,
-	SUM(CASE WHEN dependents IS NULL OR dependents = "" THEN 1 ELSE 0 END) AS dependents_nulls,
+	SUM(CASE WHEN partner IS NULL OR partner = " " THEN 1 ELSE 0 END) AS partner_nulls,
+	SUM(CASE WHEN dependents IS NULL OR dependents = " " THEN 1 ELSE 0 END) AS dependents_nulls,
 	SUM(CASE WHEN tenure IS NULL THEN 1 ELSE 0 END) AS tenure_nulls,
-	SUM(CASE WHEN phone_service IS NULL OR phone_service = "" THEN 1 ELSE 0 END) AS phone_service_nulls,
-	SUM(CASE WHEN multiple_lines IS NULL OR multiple_lines = "" THEN 1 ELSE 0 END) AS lines_nulls,
-	SUM(CASE WHEN internet_service IS NULL OR internet_service = "" THEN 1 ELSE 0 END) AS internet_service_nulls,
-	SUM(CASE WHEN online_security IS NULL OR online_security = "" THEN 1 ELSE 0 END) AS online_security_nulls,
-	SUM(CASE WHEN online_backup IS NULL OR online_backup = "" THEN 1 ELSE 0 END) AS online_backup_nulls,
-	SUM(CASE WHEN device_protection IS NULL OR device_protection = "" THEN 1 ELSE 0 END) AS device_protection_nulls,
-	SUM(CASE WHEN tech_support IS NULL OR tech_support = "" THEN 1 ELSE 0 END) AS tech_support_nulls,
-	SUM(CASE WHEN streaming_tv IS NULL OR streaming_tv = "" THEN 1 ELSE 0 END) AS streaming_tv_nulls,
-	SUM(CASE WHEN streaming_movies IS NULL OR streaming_movies = "" THEN 1 ELSE 0 END) AS streaming_movies_nulls,
-	SUM(CASE WHEN contract IS NULL OR contract = "" THEN 1 ELSE 0 END) AS contract_nulls,
-	SUM(CASE WHEN paper_less_billing IS NULL OR paper_less_billing = "" THEN 1 ELSE 0 END) AS paper_less_biling_nulls,
-	SUM(CASE WHEN payment_method IS NULL OR payment_method = "" THEN 1 ELSE 0 END) AS payment_method_nulls,
+	SUM(CASE WHEN phone_service IS NULL OR phone_service = " " THEN 1 ELSE 0 END) AS phone_service_nulls,
+	SUM(CASE WHEN multiple_lines IS NULL OR multiple_lines = " " THEN 1 ELSE 0 END) AS lines_nulls,
+	SUM(CASE WHEN internet_service IS NULL OR internet_service = " " THEN 1 ELSE 0 END) AS internet_service_nulls,
+	SUM(CASE WHEN online_security IS NULL OR online_security = " " THEN 1 ELSE 0 END) AS online_security_nulls,
+	SUM(CASE WHEN online_backup IS NULL OR online_backup = " " THEN 1 ELSE 0 END) AS online_backup_nulls,
+	SUM(CASE WHEN device_protection IS NULL OR device_protection = " " THEN 1 ELSE 0 END) AS device_protection_nulls,
+	SUM(CASE WHEN tech_support IS NULL OR tech_support = " " THEN 1 ELSE 0 END) AS tech_support_nulls,
+	SUM(CASE WHEN streaming_tv IS NULL OR streaming_tv = " " THEN 1 ELSE 0 END) AS streaming_tv_nulls,
+	SUM(CASE WHEN streaming_movies IS NULL OR streaming_movies = " " THEN 1 ELSE 0 END) AS streaming_movies_nulls,
+	SUM(CASE WHEN contract IS NULL OR contract = " " THEN 1 ELSE 0 END) AS contract_nulls,
+	SUM(CASE WHEN paper_less_billing IS NULL OR paper_less_billing = " " THEN 1 ELSE 0 END) AS paper_less_biling_nulls,
+	SUM(CASE WHEN payment_method IS NULL OR payment_method = " " THEN 1 ELSE 0 END) AS payment_method_nulls,
 	SUM(CASE WHEN monthly_charges IS NULL THEN 1 ELSE 0 END) AS mothly_charges_nulls,
 	SUM(CASE WHEN total_charges IS NULL THEN 1 ELSE 0 END) AS total_charges_nulls,
-	SUM(CASE WHEN churn IS NULL OR churn = "" THEN 1 ELSE 0 END) AS churn_nulls
+	SUM(CASE WHEN churn IS NULL OR churn = " " THEN 1 ELSE 0 END) AS churn_nulls
 FROM customer_churn_staging2;
 
 SELECT COUNT(*)
