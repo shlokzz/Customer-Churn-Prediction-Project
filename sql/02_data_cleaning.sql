@@ -212,6 +212,11 @@ UPDATE customer_churn_staging2
 SET total_charges = 0
 WHERE total_charges = ' ';
 
+ALTER TABLE customer_churn_staging2
+MODIFY COLUMN total_charges DOUBLE;
+
+DESCRIBE customer_churn_staging2;
+
 SELECT DISTINCT churn
 FROM customer_churn_staging2;
 
