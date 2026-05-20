@@ -188,6 +188,12 @@ SELECT DISTINCT total_charges
 FROM customer_churn_staging2
 ORDER BY 1;
 
+SELECT total_charges, COUNT(*)
+FROM customer_churn_staging2 
+WHERE total_charges IS NULL 
+OR total_charges = " "
+GROUP BY total_charges;
+
 SELECT DISTINCT churn
 FROM customer_churn_staging2;
 
