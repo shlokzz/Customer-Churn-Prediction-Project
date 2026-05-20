@@ -21,7 +21,7 @@ CREATE TABLE `customer_churn` (
   `PaperlessBilling` text,
   `PaymentMethod` text,
   `MonthlyCharges` double DEFAULT NULL,
-  `TotalCharges` double DEFAULT NULL,
+  `TotalCharges` text,
   `Churn` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

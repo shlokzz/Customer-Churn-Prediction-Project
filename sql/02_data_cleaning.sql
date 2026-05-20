@@ -99,7 +99,7 @@ CREATE TABLE `customer_churn_staging2` (
   `paper_less_billing` text,
   `payment_method` text,
   `monthly_charges` double DEFAULT NULL,
-  `total_charges` double DEFAULT NULL,
+  `total_charges` text,
   `churn` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -221,4 +221,3 @@ FROM customer_churn_staging2;
 
 SELECT COUNT(*)
 FROM customer_churn_staging2;
-
