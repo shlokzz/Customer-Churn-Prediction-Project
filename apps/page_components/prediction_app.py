@@ -16,6 +16,9 @@ with open("models/one_hot_encoder.sav", "rb") as f:
 with open("models/standardscaler.sav", "rb") as f:
     loaded_scaler_model = pickle.load(f)
 
+with open("models/model_columns.sav", "rb") as f:
+    loaded_model_columns = pickle.load(f)
+
 # Define numerical features
 num_cols = ["tenure", "senior_citizen", "monthly_charges", "total_charges"]
 
@@ -36,6 +39,38 @@ cats_col = [
     "paper_less_billing",
     "payment_method",
 ]
+
+
+def customer_churn_prediction(input_data):
+
+    # convert inputs as a pandas DataFrame
+    input_data_as_dataframe = pd.DataFrame([input_data])
+
+    # use the saved LabelEncoder
+    label_encoder_data = loaded_label_encoded_model.transform(input[cats_col])
+
+    # use the saved OneHotEncoder model
+    one_hot_encoder_data = loaded_one_hot_encoder_model.transform(input[cats_col])
+    one_hot_encoder_df = pd.DataFrame(
+        one_hot_encoder_data,
+        columns=loaded_one_hot_encoder_model.get_feature_names_out(cats_col),
+    )
+
+    # use the saved StandardScaler
+    std_data = loaded_scaler_model.transform(input_data_as_dataframe[num_cols])
+    std_df = pd.DataFrame(std_data, columns=num_cols)
+
+    # concatenate StandardScaler and OneHotEncoder
+    final_input = pd.concat(
+        [one_hot_encoder_df.reset_index(drop=True), std_df.reset_index(drop=True)],
+        axis=1,
+    )
+
+    # Reindex to match the training column names in exact order
+    final_input = final_input.reindex(columns=loaded_model_columns, fill_value=0)
+
+    prediction = loaded_final_pipeline.predict(final_input)
+    return f"{prediction}"
 
 
 def main():
