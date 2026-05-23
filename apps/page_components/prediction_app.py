@@ -4,8 +4,8 @@ import streamlit as st
 import pickle
 
 # load the saved trained model
-with open("models/trained_model.sav", "rb") as f:
-    loaded_trained_model = pickle.load(f)
+with open("models/final_pipeline.sav", "rb") as f:
+    loaded_final_pipeline = pickle.load(f)
 
 with open("models/label_encoder.sav", "rb") as f:
     loaded_label_encoded_model = pickle.load(f)
