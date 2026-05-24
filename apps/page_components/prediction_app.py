@@ -76,13 +76,14 @@ def customer_churn_prediction(input_data):
 def main():
 
     gender = st.selectbox("Select Gender", ["Male", "Female"])
-    senior_citizen = st.number_input("Are You Above 60 Years Old (0 = No | 1=Yes)?")
+    senior_citizen_ui = st.selectbox("Are You Above 60 Years Old (0 = No | 1=Yes)?") 
+    senior_citizen = 1 if senior_citizen_ui == "Yes" else 0
     partner = st.selectbox("Are you married?", ["Yes", "No"])
     dependents = st.selectbox("Do you have dependents?", ["Yes", "No"])
     tenure = st.number_input(
         "How long have you have the tenure?", min_value=0, max_value=72
     )
-    phone_service = st.selectbox("Do you have a phone serive?", ["Yes", "No"])
+    phone_service = st.selectbox("Do you have a phone service?", ["Yes", "No"])
     
     multiple_lines = st.selectbox(
         "Do you have multiple lines?", ["Yes", "No", "No phone service"]
