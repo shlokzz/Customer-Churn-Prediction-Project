@@ -19,7 +19,12 @@ select_churn_status = st.sidebar.multiselect(
 )
 
 # gender filter
-select_gender = st.sidebar.selectbox("Select Gender", ["Male", "Female"])
+select_gender = st.sidebar.multiselect(
+    "Select Gender",
+    options=sorted(df["gender"].dropna().unique().tolist()),
+    default=df["gender"].dropna().unique().tolist(),
+    key="dashboard_gender",
+)
 
 # contract filter
 select_contract = st.sidebar.multiselect(
@@ -57,8 +62,8 @@ select_internet_service = st.sidebar.multiselect(
 filtered_df = df[
     df["churn"].isin(select_churn_status)
     & (df["contract"].isin(select_contract))
-    & (df['tenure_groups'].isin(select_tenure)) 
-    & (df['payment_method'].isin(select_payment_method)) 
+    & (df["tenure_groups"].isin(select_tenure))
+    & (df["payment_method"].isin(select_payment_method))
 ]
 
 st.subheader("Overview")
@@ -66,12 +71,41 @@ st.subheader("Overview")
 col1, col2, col3, col4 = st.columns(4)
 
 total_customers = len(filtered_df)
-total_churned = int(filtered_df['churn_numeric'].sum())
+total_churned = int(filtered_df["churn_numeric"].sum())
 total_retained = total_customers - total_churned
-churn_rate = (total_churned/ total_customers) * 100 if total_customers > 0 else 0.0
+churn_rate = (total_churned / total_customers) * 100 if total_customers > 0 else 0.0
 
 # Display KPI cards
 col1.metric("Total Customer", value=f"{total_customers:,}")
-col2.metric("Total Churned", value=f"{total_churned:,}", delta="-Loss", delta_color="inverse")
+col2.metric(
+    "Total Churned", value=f"{total_churned:,}", delta="-Loss", delta_color="inverse"
+)
 col3.metric("Total Retained", value=f"{total_retained:,}")
 col4.metric("Total Churn Rate", value=f"{churn_rate:.2f}%")
+
+st.subheader("Churn Rates By Gender Demographics")
+
+gender_counts = (
+    filtered_df.groupby(["gender","churn"])
+    .size()
+    .reset_index(name="Customer Count")
+)
+
+fig = px.bar(
+        gender_counts,
+        x="gender",
+        y= "Customer Count",
+        color="churn",
+        barmode = "group",
+        color_discrete_map={
+            "No" : "orange",
+            "Yes" : "blue"
+        },
+        labels={
+            "gender": "Gender",
+            "churn": "Churn Status",
+        },
+    )
+
+st.plotly_chart(fig, width="stretch")
+
