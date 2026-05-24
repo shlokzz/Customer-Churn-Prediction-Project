@@ -112,6 +112,33 @@ st.plotly_chart(fig, width="stretch")
 col1,col2 = st.columns(2)
 
 with col1:
+
+    st.subheader("Churn Rates By Tenure Groups")
+
+    contract_type = (
+    filtered_df.groupby(["tenure_groups","churn"])
+    .size()
+    .reset_index(name="Customer Count")
+)
+
+    fig = px.bar(
+        contract_type,
+        x="tenure_groups",
+        y= "Customer Count",
+        color="churn",
+        barmode = "group",
+        color_discrete_map={
+            "No" : "orange",
+            "Yes" : "blue"
+        },
+        labels={
+            "tenure_groups": "Tenure Groups",
+            "churn": "Churn Status",
+        },
+    )
+
+    st.plotly_chart(fig, width="stretch")
+
     st.subheader("Churn Rates By Customer Type")
 
     contract_type = (
@@ -131,9 +158,37 @@ with col1:
             "Yes" : "blue"
         },
         labels={
-            "gender": "Contract Type",
+            "contract": "Contract Type",
             "churn": "Churn Status",
         },
     )
 
+    st.plotly_chart(fig, width="stretch")
+
+
+with col2:
+    st.subheader("Churn Rates By Monthly Revenue")
+
+    monthly_charges = (
+    filtered_df.groupby(["monthly_charges","churn"])
+    .size()
+    .reset_index(name="Customer Count")
+)
+
+    fig = px.bar(
+        monthly_charges,
+        x="monthly_charges",
+        y= "Customer Count",
+        color="churn",
+        barmode = "group",
+        color_discrete_map={
+            "No" : "orange",
+            "Yes" : "blue"
+        },
+        labels={
+            "monthly_charges": "Monthly Revenue",
+            "churn": "Churn Status",
+        },
+    )
+    
     st.plotly_chart(fig, width="stretch")
