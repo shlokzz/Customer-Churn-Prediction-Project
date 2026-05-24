@@ -55,7 +55,7 @@ select_internet_service = st.sidebar.multiselect(
     "Select Internet Service",
     options=sorted(df["internet_service"].dropna().unique().tolist()),
     default=df["internet_service"].dropna().unique().tolist(),
-    key="dashboar_internet_service",
+    key="dashboard_internet_service",
 )
 
 # Apply Filters
@@ -109,3 +109,31 @@ fig = px.bar(
 
 st.plotly_chart(fig, width="stretch")
 
+col1,col2 = st.columns(2)
+
+with col1:
+    st.subheader("Churn Rates By Customer Type")
+
+    contract_type = (
+    filtered_df.groupby(["contract","churn"])
+    .size()
+    .reset_index(name="Contract Count")
+)
+
+    fig = px.bar(
+        contract_type,
+        x="contract",
+        y= "Contract Count",
+        color="churn",
+        barmode = "group",
+        color_discrete_map={
+            "No" : "orange",
+            "Yes" : "blue"
+        },
+        labels={
+            "gender": "Contract Type",
+            "churn": "Churn Status",
+        },
+    )
+
+    st.plotly_chart(fig, width="stretch")
