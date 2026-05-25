@@ -6,6 +6,7 @@ import plotly.express as px
 
 df = pd.read_csv("dataset/clean dataset/final_telco_customer_churn_cleaned_dataset.csv")
 
+st.set_page_config(layout="wide")
 # Add sidebar filters
 st.sidebar.header("Dashboard Filters")
 st.sidebar.caption("Filter Applies Only To Dashboard Tab")
@@ -61,14 +62,16 @@ select_internet_service = st.sidebar.multiselect(
 # Apply Filters
 filtered_df = df[
     df["churn"].isin(select_churn_status)
+    & (df["gender"].isin(select_contract))
     & (df["contract"].isin(select_contract))
     & (df["tenure_groups"].isin(select_tenure))
     & (df["payment_method"].isin(select_payment_method))
+    & (df["internet_service"].isin(select_internet_service))
 ]
 
 st.subheader("Overview")
 # Columns layout
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 total_customers = len(filtered_df)
 total_churned = int(filtered_df["churn_numeric"].sum())
@@ -83,6 +86,7 @@ col2.metric(
 col3.metric("Total Retained", value=f"{total_retained:,}")
 col4.metric("Total Churn Rate", value=f"{churn_rate:.2f}%")
 
+# Display barchart for gender demographics
 st.subheader("Churn Rates By Gender Demographics")
 
 gender_counts = (
@@ -113,6 +117,7 @@ col1,col2 = st.columns(2)
 
 with col1:
 
+    # Display barchart for tenure groups
     st.subheader("Churn Rates By Tenure Groups")
 
     contract_type = (
@@ -138,19 +143,20 @@ with col1:
     )
 
     st.plotly_chart(fig, width="stretch")
-
-    st.subheader("Churn Rates By Customer Type")
+    
+    # Display barchart for contract type
+    st.subheader("Churn Rates By Contract Type")
 
     contract_type = (
     filtered_df.groupby(["contract","churn"])
     .size()
-    .reset_index(name="Contract Count")
+    .reset_index(name="Customer Count")
 )
 
     fig = px.bar(
         contract_type,
         x="contract",
-        y= "Contract Count",
+        y= "Customer Count",
         color="churn",
         barmode = "group",
         color_discrete_map={
@@ -167,17 +173,41 @@ with col1:
 
 
 with col2:
+# Display histogram for monthly revenue
     st.subheader("Churn Rates By Monthly Revenue")
 
-    monthly_charges = (
-    filtered_df.groupby(["monthly_charges","churn"])
+    fig = px.histogram(
+        filtered_df,
+        x="monthly_charges",
+        color="churn",
+        barmode = "group",
+        nbins= 20,
+        color_discrete_map={
+            "No" : "orange",
+            "Yes" : "blue"
+        },
+        labels={
+            "monthly_charges": "Monthly Revenue",
+            "churn": "Churn Status",
+        },
+        title="Are Churned Customers Paying More?"
+    )
+    fig.update_layout(yaxis_title="Number of Customers")
+    st.plotly_chart(fig, width="stretch")
+
+    
+# Display bar chart for payment method
+    st.subheader("Churn Rates By Customer's Payment Method")
+
+    payment_method = (
+    filtered_df.groupby(["payment_method","churn"])
     .size()
     .reset_index(name="Customer Count")
 )
 
     fig = px.bar(
-        monthly_charges,
-        x="monthly_charges",
+        payment_method,
+        x="payment_method",
         y= "Customer Count",
         color="churn",
         barmode = "group",
@@ -186,7 +216,7 @@ with col2:
             "Yes" : "blue"
         },
         labels={
-            "monthly_charges": "Monthly Revenue",
+            "payment_method": "Payment Method",
             "churn": "Churn Status",
         },
     )
