@@ -77,7 +77,9 @@ total_customers = len(filtered_df)
 total_churned = int(filtered_df["churn_numeric"].sum())
 total_retained = total_customers - total_churned
 churn_rate = (total_churned / total_customers) * 100 if total_customers > 0 else 0.0
-monthly_revenue_lost = filtered_df[filtered_df["churn"] == "Yes"]["monthly_charges"].sum() 
+monthly_revenue_lost = filtered_df[filtered_df["churn"] == "Yes"][
+    "monthly_charges"
+].sum()
 
 # Display KPI cards
 col1.metric("Total Customer", value=f"{total_customers:,}")
@@ -86,36 +88,36 @@ col2.metric(
 )
 col3.metric("Total Retained", value=f"{total_retained:,}")
 col4.metric("Total Churn Rate", value=f"{churn_rate:.2f}%")
-col5.metric("Monthly Revenue at Risk", value=f"${monthly_revenue_lost:,.2f}",delta="-Revenue Loss", delta_color="inverse")
+col5.metric(
+    "Monthly Revenue at Risk",
+    value=f"${monthly_revenue_lost:,.2f}",
+    delta="-Revenue Loss",
+    delta_color="inverse",
+)
 
 # Display barchart for gender demographics
 st.subheader("Churn Rates By Gender Demographics")
 
 gender_counts = (
-    filtered_df.groupby(["gender","churn"])
-    .size()
-    .reset_index(name="Customer Count")
+    filtered_df.groupby(["gender", "churn"]).size().reset_index(name="Customer Count")
 )
 
 fig = px.bar(
-        gender_counts,
-        x="gender",
-        y= "Customer Count",
-        color="churn",
-        barmode = "group",
-        color_discrete_map={
-            "No" : "orange",
-            "Yes" : "blue"
-        },
-        labels={
-            "gender": "Gender",
-            "churn": "Churn Status",
-        },
-    )
+    gender_counts,
+    x="gender",
+    y="Customer Count",
+    color="churn",
+    barmode="group",
+    color_discrete_map={"No": "orange", "Yes": "blue"},
+    labels={
+        "gender": "Gender",
+        "churn": "Churn Status",
+    },
+)
 
 st.plotly_chart(fig, width="stretch")
 
-col1,col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
 with col1:
 
@@ -123,21 +125,18 @@ with col1:
     st.subheader("Churn Rates By Tenure Groups")
 
     contract_type = (
-    filtered_df.groupby(["tenure_groups","churn"])
-    .size()
-    .reset_index(name="Customer Count")
-)
+        filtered_df.groupby(["tenure_groups", "churn"])
+        .size()
+        .reset_index(name="Customer Count")
+    )
 
     fig = px.bar(
         contract_type,
         x="tenure_groups",
-        y= "Customer Count",
+        y="Customer Count",
         color="churn",
-        barmode = "group",
-        color_discrete_map={
-            "No" : "orange",
-            "Yes" : "blue"
-        },
+        barmode="group",
+        color_discrete_map={"No": "orange", "Yes": "blue"},
         labels={
             "tenure_groups": "Tenure Groups",
             "churn": "Churn Status",
@@ -145,26 +144,23 @@ with col1:
     )
 
     st.plotly_chart(fig, width="stretch")
-    
+
     # Display barchart for contract type
     st.subheader("Churn Rates By Contract Type")
 
     contract_type = (
-    filtered_df.groupby(["contract","churn"])
-    .size()
-    .reset_index(name="Customer Count")
-)
+        filtered_df.groupby(["contract", "churn"])
+        .size()
+        .reset_index(name="Customer Count")
+    )
 
     fig = px.bar(
         contract_type,
         x="contract",
-        y= "Customer Count",
+        y="Customer Count",
         color="churn",
-        barmode = "group",
-        color_discrete_map={
-            "No" : "orange",
-            "Yes" : "blue"
-        },
+        barmode="group",
+        color_discrete_map={"No": "orange", "Yes": "blue"},
         labels={
             "contract": "Contract Type",
             "churn": "Churn Status",
@@ -173,54 +169,95 @@ with col1:
 
     st.plotly_chart(fig, width="stretch")
 
+    # Display barchart for internet service
+    st.subheader("Churn Rates By Internet Service")
+
+    internet_service = (
+        filtered_df.groupby(["internet_service", "churn"])
+        .size()
+        .reset_index(name="Customer Count")
+    )
+
+    fig = px.bar(
+        internet_service,
+        x="internet_service",
+        y="Customer Count",
+        color="churn",
+        barmode="group",
+        color_discrete_map={"No": "orange", "Yes": "blue"},
+        labels={
+            "internet_service": "Internet Service",
+            "churn": "Churn Status",
+        },
+    )
+
+    st.plotly_chart(fig, width="stretch")
 
 with col2:
-# Display histogram for monthly revenue
+    # Display histogram for monthly revenue
     st.subheader("Churn Rates By Monthly Revenue")
 
     fig = px.histogram(
         filtered_df,
         x="monthly_charges",
         color="churn",
-        barmode = "group",
-        nbins= 20,
-        color_discrete_map={
-            "No" : "orange",
-            "Yes" : "blue"
-        },
+        barmode="group",
+        nbins=20,
+        color_discrete_map={"No": "orange", "Yes": "blue"},
         labels={
             "monthly_charges": "Monthly Revenue",
             "churn": "Churn Status",
         },
-        title="Are Churned Customers Paying More?"
+        title="Are Churned Customers Paying More?",
     )
     fig.update_layout(yaxis_title="Number of Customers")
     st.plotly_chart(fig, width="stretch")
 
-    
-# Display bar chart for payment method
+    # Display bar chart for payment method
     st.subheader("Churn Rates By Customer's Payment Method")
 
     payment_method = (
-    filtered_df.groupby(["payment_method","churn"])
-    .size()
-    .reset_index(name="Customer Count")
-)
+        filtered_df.groupby(["payment_method", "churn"])
+        .size()
+        .reset_index(name="Customer Count")
+    )
 
     fig = px.bar(
         payment_method,
         x="payment_method",
-        y= "Customer Count",
+        y="Customer Count",
         color="churn",
-        barmode = "group",
-        color_discrete_map={
-            "No" : "orange",
-            "Yes" : "blue"
-        },
+        barmode="group",
+        color_discrete_map={"No": "orange", "Yes": "blue"},
         labels={
             "payment_method": "Payment Method",
             "churn": "Churn Status",
         },
     )
-    
+
+    st.plotly_chart(fig, width="stretch")
+
+    # Display barchart for contract type
+    st.subheader("Churn Rates By Total Service")
+
+    total_services = (
+        filtered_df.groupby(["total_services", "churn"])
+        .size()
+        .reset_index(name="Customer Count")
+    )
+
+    fig = px.bar(
+        total_services,
+        x="total_services",
+        y="Customer Count",
+        color="churn",
+        barmode="group",
+        color_discrete_map={"No": "orange", "Yes": "blue"},
+        labels={
+            "total_services": "Total Services",
+            "churn": "Churn Status",
+        },
+        title="Do Customers Churn With More Services Or Less?"
+    )
+
     st.plotly_chart(fig, width="stretch")
