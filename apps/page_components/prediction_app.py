@@ -124,7 +124,7 @@ def show():
             )
             internet_service = st.selectbox(
                 "Which internet service do you have?",
-                ["DSL", "Fiber Optic", "No"],
+                ["DSL", "Fiber optic", "No"],
             )
 
         with col2:
