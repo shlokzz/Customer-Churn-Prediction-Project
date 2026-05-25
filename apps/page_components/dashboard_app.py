@@ -62,7 +62,7 @@ select_internet_service = st.sidebar.multiselect(
 # Apply Filters
 filtered_df = df[
     df["churn"].isin(select_churn_status)
-    & (df["gender"].isin(select_contract))
+    & (df["gender"].isin(select_gender))
     & (df["contract"].isin(select_contract))
     & (df["tenure_groups"].isin(select_tenure))
     & (df["payment_method"].isin(select_payment_method))
@@ -77,6 +77,7 @@ total_customers = len(filtered_df)
 total_churned = int(filtered_df["churn_numeric"].sum())
 total_retained = total_customers - total_churned
 churn_rate = (total_churned / total_customers) * 100 if total_customers > 0 else 0.0
+monthly_revenue_lost = filtered_df[filtered_df["churn"] == "Yes"]["monthly_charges"].sum() 
 
 # Display KPI cards
 col1.metric("Total Customer", value=f"{total_customers:,}")
@@ -85,6 +86,7 @@ col2.metric(
 )
 col3.metric("Total Retained", value=f"{total_retained:,}")
 col4.metric("Total Churn Rate", value=f"{churn_rate:.2f}%")
+col5.metric("Monthly Revenue at Risk", value=f"${monthly_revenue_lost:,.2f}",delta="-Revenue Loss", delta_color="inverse")
 
 # Display barchart for gender demographics
 st.subheader("Churn Rates By Gender Demographics")
