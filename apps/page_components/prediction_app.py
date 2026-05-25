@@ -75,50 +75,119 @@ def customer_churn_prediction(input_data):
 
 def main():
 
-    gender = st.selectbox("Select Gender", ["Male", "Female"])
-    senior_citizen_ui = st.selectbox("Are You Above 60 Years Old (0 = No | 1=Yes)?") 
-    senior_citizen = 1 if senior_citizen_ui == "Yes" else 0
-    partner = st.selectbox("Are you married?", ["Yes", "No"])
-    dependents = st.selectbox("Do you have dependents?", ["Yes", "No"])
-    tenure = st.number_input(
-        "How long have you have the tenure?", min_value=0, max_value=72
-    )
-    phone_service = st.selectbox("Do you have a phone service?", ["Yes", "No"])
+    # Page header
+    st.title("Customer Churn Predictor")
+    st.divider()
+
+    # Customer Demographics
+    st.subheader("Customer Demographics")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        gender = st.selectbox("Select Gender", ["Male", "Female"])
     
-    multiple_lines = st.selectbox(
+    with col2:
+        senior_citizen_ui = st.selectbox("Are You Above 60 Years Old?", ["Yes","No"])
+        senior_citizen = 1 if senior_citizen_ui == "Yes" else 0
+    
+    with col3:
+        partner = st.selectbox("Are you married?", ["Yes", "No"])
+        
+    col4, col5 = st.columns(2)
+
+    with col4:
+        dependents = st.selectbox("Do you have dependents?", ["Yes", "No"])
+    
+    with col5:
+        tenure = st.number_input(
+        "How long have you have the tenure?", min_value=0, max_value=72, step=1
+    )
+        
+    st.divider()
+
+    # Services
+    st.subheader("Subscribed Services")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        phone_service = st.selectbox("Do you have a phone service?", ["Yes", "No"])
+        multiple_lines = st.selectbox(
         "Do you have multiple lines?", ["Yes", "No", "No phone service"]
     )
-    internet_service = st.selectbox(
+        internet_service = st.selectbox(
         "Which internet service do you have?",
         ["DSL", "Fiber Optic", "No"],
     )
-    online_security = st.selectbox("Do you have online security?", ["Yes", "No","No internet service"])
-    online_backup = st.selectbox("Do you have online backup?", ["Yes", "No","No internet service"])
-    device_protection = st.selectbox("Do you have device protection?", ["Yes", "No","No internet service"])
-    tech_support = st.selectbox("Do you have tech support?", ["Yes", "No","No internet service"])
-    streaming_tv = st.selectbox("Do you stream in TV?", ["Yes", "No","No internet service"])
-    streaming_movies = st.selectbox("Do you stream movies?", ["Yes", "No","No internet service"])
-    contract = st.selectbox(
+        
+    with col2:
+        online_security = st.selectbox(
+        "Do you have online security?", ["Yes", "No", "No internet service"]
+    )
+        online_backup = st.selectbox(
+        "Do you have online backup?", ["Yes", "No", "No internet service"]
+    )
+        device_protection = st.selectbox(
+        "Do you have device protection?", ["Yes", "No", "No internet service"]
+    )
+        
+    with col3:
+        tech_support = st.selectbox(
+        "Do you have tech support?", ["Yes", "No", "No internet service"]
+    )
+        streaming_tv = st.selectbox(
+        "Do you stream in TV?", ["Yes", "No", "No internet service"]
+    )
+        streaming_movies = st.selectbox(
+        "Do you stream movies?", ["Yes", "No", "No internet service"]
+    )
+        
+        
+
+    st.divider()
+
+    # Revenues and contract
+
+    st.subheader("Contract & Revenue")
+
+    col1,col2,col3 = st.columns(3)
+    with col1: 
+        contract = st.selectbox(
         "Select Your Contract Type", ["Month-to-month", "One year", "Two year"]
     )
-    paper_less_billing = st.selectbox("Do you prefer paper less billing?", ["Yes", "No"])
-    payment_method = st.selectbox("Select your payment method?", ["Bank transfer (automatic)", "Credit card (automatic)", "Electronic check", "Mailed check"])
-    monthly_charges = st.number_input(
+
+    with col2:
+        paper_less_billing = st.selectbox(
+        "Do you prefer paper less billing?", ["Yes", "No"]
+    )
+        
+    with col3:
+        payment_method = st.selectbox(
+        "Select your payment method?",
+        [
+            "Bank transfer (automatic)",
+            "Credit card (automatic)",
+            "Electronic check",
+            "Mailed check",
+        ],
+    )
+        
+    col4, col5 = st.columns(2)
+
+    with col4:
+        total_charges = st.number_input(
+        "Enter Your total charges?",
+        min_value=0.0,
+        max_value=10000.0,
+        value=0.0,
+        step=10.0,
+    )
+    with col5:
+        monthly_charges = st.number_input(
         "Enter Your monthly charges?",
         min_value=0.0,
         max_value=200.0,
         value=0.0,
         step=1.0,
-    )
-    total_charges = st.number_input(
-        "Enter Your total charges?", min_value=0.0, max_value=10000.0, value=0.0, step=10.0
-    )
-    total_services = st.number_input(
-        "Enter how many services you have subscribed to?",
-        min_value=0,
-        max_value=9,
-        value=0,
-        step=1,
     )
 
     # code for prediction
@@ -146,19 +215,18 @@ def main():
             "paper_less_billing": paper_less_billing,
             "payment_method": payment_method,
             "monthly_charges": monthly_charges,
-            "total_charges": total_charges,
-            "total_services": total_services,
+            "total_charges": total_charges
         }
 
         prediction = customer_churn_prediction(inputs)
 
         if prediction == 0:
             st.metric(label="Churn Prediction", value=False)
-            st.success("The customer is predicted to STAY")
+            st.success("The customer is predicted TO STAY")
 
         else:
             st.metric(label="Churn Prediction", value=True)
-            st.error("The customer is predicted To Be CHURNED.")
+            st.error("The customer is predicted TO BE CHURNED.")
 
 
 if __name__ == "__main__":

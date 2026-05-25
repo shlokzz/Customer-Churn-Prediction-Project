@@ -95,25 +95,27 @@ col5.metric(
     delta_color="inverse",
 )
 
-# Display barchart for gender demographics
-st.subheader("Churn Rates By Gender Demographics")
+# Display barchart for contract type
+st.subheader("Churn Rates By Contract Type")
 
-gender_counts = (
-    filtered_df.groupby(["gender", "churn"]).size().reset_index(name="Customer Count")
-)
+contract_type = (
+        filtered_df.groupby(["contract", "churn"])
+        .size()
+        .reset_index(name="Customer Count")
+    )
 
 fig = px.bar(
-    gender_counts,
-    x="gender",
-    y="Customer Count",
-    color="churn",
-    barmode="group",
-    color_discrete_map={"No": "orange", "Yes": "blue"},
-    labels={
-        "gender": "Gender",
-        "churn": "Churn Status",
-    },
-)
+        contract_type,
+        x="contract",
+        y="Customer Count",
+        color="churn",
+        barmode="group",
+        color_discrete_map={"No": "orange", "Yes": "blue"},
+        labels={
+            "contract": "Contract Type",
+            "churn": "Churn Status",
+        },
+    )
 
 st.plotly_chart(fig, width="stretch")
 
@@ -145,30 +147,6 @@ with col1:
 
     st.plotly_chart(fig, width="stretch")
 
-    # Display barchart for contract type
-    st.subheader("Churn Rates By Contract Type")
-
-    contract_type = (
-        filtered_df.groupby(["contract", "churn"])
-        .size()
-        .reset_index(name="Customer Count")
-    )
-
-    fig = px.bar(
-        contract_type,
-        x="contract",
-        y="Customer Count",
-        color="churn",
-        barmode="group",
-        color_discrete_map={"No": "orange", "Yes": "blue"},
-        labels={
-            "contract": "Contract Type",
-            "churn": "Churn Status",
-        },
-    )
-
-    st.plotly_chart(fig, width="stretch")
-
     # Display barchart for internet service
     st.subheader("Churn Rates By Internet Service")
 
@@ -190,6 +168,28 @@ with col1:
             "churn": "Churn Status",
         },
     )
+
+    st.plotly_chart(fig, width="stretch")
+
+    # Display barchart for gender demographics
+    st.subheader("Churn Rates By Gender Demographics")
+
+    gender_counts = (
+    filtered_df.groupby(["gender", "churn"]).size().reset_index(name="Customer Count")
+)
+
+    fig = px.bar(
+    gender_counts,
+    x="gender",
+    y="Customer Count",
+    color="churn",
+    barmode="group",
+    color_discrete_map={"No": "orange", "Yes": "blue"},
+    labels={
+        "gender": "Gender",
+        "churn": "Churn Status",
+    },
+)
 
     st.plotly_chart(fig, width="stretch")
 
