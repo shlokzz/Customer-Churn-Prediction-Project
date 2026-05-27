@@ -36,6 +36,20 @@ I compared four models with cross-validation accuracy score and F1 score and fou
 
 ## Key Decisions
 
+1. **Seleced XGBFR Classifier As Final odel:** After comparing the four models (Logistic Regression, Random Forest Classifier, Decision Tree, XGBRF Classifier), XGBRF Classifier was selected as the final model due to high cross-validation accuracy and F1 score. 
+
+2. **Handling Class Imbalance and Overfitting:** SMOTE (Synthetic Minority Oversampling Technique) was selected inside pipeline to handle the class imbalance in churn data and hanlde overfitting of the data, preventing data leakage during cross-validation.
+
+3. **Evaluation Metric:** F1 score was given more significance over accuracy because the dataset is imbalanced and accuracy score alone can be misleading when one class dominates the dataset.
+
+4. **Feature Engineering:** 
+Created additional four features: 
+- **tenure_groups** - grouped tenure into time periods for better trend analysis 
+- **total_services** -  counted total services per customer to analyze if multiple services reduces churn rates
+- **customer_profile** -  combined partners and dependents to find if customers with family churned more or less
+- **churn_numeric** - converted churn to 0/1 for correlation analysis
+
+5. **Drop Columns:** - Dropped customer_id column, tenure_groups customer_profile and churn_numeric before modeling to prevent data leakage and remove redundant features.
 
 ## Business Recommendations
 1. Encourage month-to-month customers to upgrade to annual contracts through discounts and offers.
