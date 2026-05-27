@@ -1,0 +1,69 @@
+# Telco Customer Churn Project
+
+## Overview
+Built an end to end Data Science and Machine Learning project anayzing 7000+ telco customers by predicting the churn status of customers who are likely or have churned or they have not churned based on customer's demographics, subscribed services, revenues, tenure and contract. The project covers the data science workflow = from SQL data cleaning and EDA, to Python visualization, ML modeling
+
+## Dataset
+- **Source:** Kaggle - [Telco Customer Churn Dataset] (https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+- **Records:** 7000+ customers
+- **Features:** 21 columns
+- **Key Columns:** Churn, Contract, Tenure, InterntService, PaymentMethod, MonthlyCharge, TotalCharge 
+
+## Project Workflow 
+Raw Data → SQL Data Cleaning → SQL EDA → Python EDA → ML Model → Streamlit App
+
+## Model Result
+
+|           Metric                              | Score  |
+|-----------------------------------------------|--------|
+| Logistic Regression CV Accuracy Score         | 0.75   |
+| Logistic Regression CV F1 Score               | 0.63   | 
+| Random Forest Classifier CV Accuracy Score    | 0.78   |
+| Random Forest Classifier CV F1 Score          | 0.59   | 
+| Decision Tree Classifier CV Accuracy Score    | 0.72   |
+| Decision Tree Classifier CV F1 Score          | 0.51   | 
+| XGBRF Classifier CV Accuracy Score            | 0.77   |
+| XGBRF Classifier CV F1 Score                  | 0.63   | 
+|-----------------------------------------------|--------|
+| XGBRF Classifier After Tuning F1 Score        | 0.6233 | 
+|-----------------------------------------------|--------|
+| Final Test Accuracy                           | 0.7785 | 
+| Final Test Precision (Churn)                  | 0.56   |
+| Final Test Recall (Churn)                     | 0.76   |
+| Final Test F1 Score (Churn)                   | 0.64   |
+
+I compared four models with cross-validation accuracy score and F1 score and found that XGBRF Classifier performed the best, scoring 0.77 accuracy score and 0.63 F1 score. So, I selected it as a final model and performed hyperparameter tuning using GridSearchCV. After tuning, the F1 score remained stable at around 0.62-0.63 suggesting the default parameters were already near optimal. Finally, I evaluated the tuned model on unseen data using accuracy score and classification report. The confusion matrix confirmed the model correctly predicted the majority of churned customers while maintaining strong overall accuracy   
+
+## Key Decisions
+
+
+# Dashboard Preview
+![Screenshot of Streamlit Dashboard Tab] (apps-image/dashboard-image)
+![Screenshot of Streamlit Prediction Tab] (apps-image/prediction-image)
+
+## Tech Stack
+- **MySQL** - Data Cleaning & EDA
+- **Python** - Data Analysis & ML
+- **Pandas** - Data Manipulation
+- **Matplotlib & Seaborn** - Data Visualization
+- **Scikit-learn** - Machine Learning 
+- **Pickle** - Save Models
+- **Plotly** - Interactive Charts
+- **Streamlit** - Dashboard, Prediction System & Deployment
+
+## Quick Start
+```bash
+git clone https://github.com/shlokzz/Customer-Churn-Prediction-Project.git
+pip install -r requirements.txt
+streamlit run apps/app.py
+```
+
+## Project Structure
+```
+sql/                # Data Cleaning and EDA
+notebooks/          # Visual EDA and Model Evaluation
+dataset/            # Raw and Clean Dataset
+apps/               # Streamlit Web Application
+apps-image/         # Image of Streamlit App
+models/             # Saved Models
+```
