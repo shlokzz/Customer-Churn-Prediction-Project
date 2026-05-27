@@ -32,10 +32,16 @@ Raw Data → SQL Data Cleaning → SQL EDA → Python EDA → ML Model → Strea
 | Final Test Recall (Churn)                     | 0.76   |
 | Final Test F1 Score (Churn)                   | 0.64   |
 
-I compared four models with cross-validation accuracy score and F1 score and found that XGBRF Classifier performed the best, scoring 0.77 accuracy score and 0.63 F1 score. So, I selected it as a final model and performed hyperparameter tuning using GridSearchCV. After tuning, the F1 score remained stable at around 0.62-0.63 suggesting the default parameters were already near optimal. Finally, I evaluated the tuned model on unseen data using accuracy score and classification report. The confusion matrix confirmed the model correctly predicted the majority of churned customers while maintaining strong overall accuracy   
+I compared four models with cross-validation accuracy score and F1 score and found that XGBRF Classifier performed the best, scoring 0.77 accuracy score and 0.63 F1 score. So, I selected it as a final model and performed hyperparameter tuning using GridSearchCV. After tuning, the F1 score remained stable at around 0.62-0.63 suggesting the default parameters were already near optimal. Finally, I evaluated the tuned model on unseen data using accuracy score and classification report. The confusion matrix confirmed the model correctly predicted the majority of churned customers while maintaining strong overall accuracy.
 
 ## Key Decisions
 
+
+## Business Recommendations
+1. Encourage month-to-month customers to upgrade to annual contracts through discounts and offers.
+2. Investigate why fiber optics internet service customers churned more, the causes might be pricing or the service itself.
+3. Promote automatic payments methods than electronic check as the automatic services had low churn rates.
+4. Customers with multiple services churned less, so customers should be provided with multiple services.
 
 # Dashboard Preview
 ![Screenshot of Streamlit Dashboard Tab] (apps-image/dashboard-image)
