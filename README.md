@@ -1,7 +1,7 @@
 # Telco Customer Churn Project
 
 ## Overview
-Built an end to end Data Science and Machine Learning project anayzing 7000+ telco customers by predicting the churn status of customers who are likely or have churned or they have not churned based on customer's demographics, subscribed services, revenues, tenure and contract. The project covers the data science workflow = from SQL data cleaning and EDA, to Python visualization, ML modeling
+Built an end to end Data Science and Machine Learning project anayzing 7000+ telco customers by predicting the churn status of customers who are likely or have churned or they have not churned based on customer's demographics, subscribed services, revenues, tenure and contract. The project covers the data science workflow from SQL data cleaning and EDA, to Python visualization, ML modeling
 
 ## Dataset
 - **Source:** Kaggle - [Telco Customer Churn Dataset] (https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
